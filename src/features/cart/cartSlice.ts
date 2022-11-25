@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 export interface CartState {
-    item: { [productID: string]: number }
+    items: { [productID: string]: number }
 }
 
 const initialState: CartState = {
-    item: {}
+    items: {}
 }
 
 const cartSlice = createSlice({
@@ -14,10 +15,10 @@ const cartSlice = createSlice({
     reducers: {
         addToCart(state, action: PayloadAction<string>){
             const id = action.payload;
-            if(state.item[id]){
-                state.item[id]++
+            if(state.items[id]){
+                state.items[id]++
             } else{
-                state.item[id] = 1
+                state.items[id] = 1
             }
         }
     }
@@ -25,3 +26,11 @@ const cartSlice = createSlice({
 
 export const { addToCart } = cartSlice.actions;
 export default cartSlice.reducer;
+
+export function getNumItems(state: RootState){
+    let numItems = 0;
+    for(let id in state.cart.items){
+        numItems += state.cart.items[id];
+    }
+    return numItems;
+}
