@@ -11,6 +11,8 @@ npm install
 npm run dev
 ```
 
+## Live-view
+[Click here](https://reduxshoppingcartex.netlify.app/)
 ## Technologies
 
 - [Vite](https://vitejs.dev/)
