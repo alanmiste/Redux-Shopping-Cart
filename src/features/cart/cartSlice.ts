@@ -1,15 +1,12 @@
-import { createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
-type CheckoutState = "LOADING" | "READY" | "ERROR";
 export interface CartState {
   items: { [productID: string]: number };
-  checkoutState: CheckoutState;
 }
 
 const initialState: CartState = {
   items: {},
-  checkoutState: "READY",
 };
 
 const cartSlice = createSlice({
@@ -17,10 +14,11 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<string>) {
-      if (state.items[action.payload]) {
-        state.items[action.payload]++;
+      const id = action.payload;
+      if (state.items[id]) {
+        state.items[id]++;
       } else {
-        state.items[action.payload] = 1;
+        state.items[id] = 1;
       }
     },
     removeFromCart(state, action: PayloadAction<string>) {
@@ -34,18 +32,12 @@ const cartSlice = createSlice({
       state.items[id] = quantity;
     },
   },
-  extraReducers: function (builder) {
-    builder.addCase("cart/checkout/pending", (state, action) => {
-      state.checkoutState = "LOADING";
-    })
-  }
 });
 
 export const { addToCart, removeFromCart, updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;
 
 export function getNumItems(state: RootState) {
-  console.log("calling numItems");
   let numItems = 0;
   for (let id in state.cart.items) {
     numItems += state.cart.items[id];
@@ -56,7 +48,6 @@ export function getNumItems(state: RootState) {
 export const getMemoizedNumItems = createSelector(
   (state: RootState) => state.cart.items,
   (items) => {
-    console.log("calling getMemoizedNumItems");
     let numItems = 0;
     for (let id in items) {
       numItems += items[id];
