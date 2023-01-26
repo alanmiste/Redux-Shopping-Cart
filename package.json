@@ -4,10 +4,10 @@
   "homepage": "https://alanmiste.github.io/Redux-Shopping-Cart",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "serve": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
